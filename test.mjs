@@ -1,9 +1,9 @@
 import os from 'os';
 import test from 'ava';
-import cleanStack from './index.js';
+import cleanStack from './esm/index.js';
 
 test('default', t => {
-	const pre = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';
+	const pre = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.mjs:6:15)';
 	const stack = `${pre}\n
     at MySocket.emit (node:events:365:28)\n
     at MySocket.emit (node:fs/promises:363:28)\n
@@ -75,14 +75,14 @@ test('babel-polyfill', t => {
 test('pirates', t => {
 	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
 	const stack = `${pre}\n
-    at Module._compile (/Users/zavr/dev/clean-stack/node_modules/pirates/lib/index.js:83:24)
-    at Object.newLoader [as .js] (/Users/zavr/dev/clean-stack/node_modules/pirates/lib/index.js:88:7)`;
+    at Module._compile (/Users/zavr/dev/clean-stack/node_modules/pirates/li./esm/index.js:83:24)
+    at Object.newLoader [as .js] (/Users/zavr/dev/clean-stack/node_modules/pirates/li./esm/index.js:88:7)`;
 	t.is(cleanStack(stack), pre);
 });
 
 test('works on Windows', t => {
-	const expected = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';
-	const stack = `Error: foo\n    at Test.fn (\\Users\\sindresorhus\\dev\\clean-stack\\test.js:6:15)\n
+	const expected = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.mjs:6:15)';
+	const stack = `Error: foo\n    at Test.fn (\\Users\\sindresorhus\\dev\\clean-stack\\test.mjs:6:15)\n
     at handleMessage (internal\\child_process.js:695:10)\n
     at Pipe.channel.onread (internal\\child_process.js:440:11)\n
     at process.emit (events.js:172:7)`;
@@ -111,12 +111,12 @@ test('works with Electron stack traces - dev app', t => {
 
 test('works with Electron stack traces - built app', t => {
 	const expected = `Error: foo
-    at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/main/index.js:107:16)
-    at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/main/index.js:568:3)`;
+    at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/mai./esm/index.js:107:16)
+    at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/mai./esm/index.js:568:3)`;
 
 	const stack = `Error: foo
-    at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/main/index.js:107:16)
-    at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/main/index.js:568:3)
+    at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/mai./esm/index.js:107:16)
+    at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/mai./esm/index.js:568:3)
     at Module._compile (module.js:571:32)
     at Object.Module._extensions..js (module.js:580:10)
     at Module.load (module.js:488:32)
@@ -131,11 +131,11 @@ test('works with Electron stack traces - built app', t => {
 
 test('`pretty` option', t => {
 	const stack = `Error: foo\n
-    at Test.fn (${os.homedir()}/dev/clean-stack/test.js:6:15)\n
+    at Test.fn (${os.homedir()}/dev/clean-stack/test.mjs:6:15)\n
     at handleMessage (internal/child_process.js:695:10)\n
     at Pipe.channel.onread (internal/child_process.js:440:11)\n
     at process.emit (events.js:172:7)`;
-	const expected = 'Error: foo\n    at Test.fn (~/dev/clean-stack/test.js:6:15)';
+	const expected = 'Error: foo\n    at Test.fn (~/dev/clean-stack/test.mjs:6:15)';
 	t.is(cleanStack(stack, {pretty: true}), expected);
 });
 

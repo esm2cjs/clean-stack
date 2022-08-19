@@ -1,5 +1,5 @@
 import os from 'os';
-import escapeStringRegexp from 'escape-string-regexp';
+import escapeStringRegexp from '@esm2cjs/escape-string-regexp';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;

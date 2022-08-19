@@ -1,17 +1,21 @@
 {
-	"name": "clean-stack",
+	"name": "@esm2cjs/clean-stack",
 	"version": "4.2.0",
-	"description": "Clean up error stack traces",
+	"description": "Clean up error stack traces. This is a fork of sindresorhus/clean-stack, but with CommonJS support.",
 	"license": "MIT",
-	"repository": "sindresorhus/clean-stack",
-	"funding": "https://github.com/sponsors/sindresorhus",
+	"repository": "esm2cjs/clean-stack",
+	"funding": "https://github.com/sponsors/AlCalzone",
 	"author": {
-		"name": "Sindre Sorhus",
-		"email": "sindresorhus@gmail.com",
-		"url": "https://sindresorhus.com"
+		"name": "Dominic Griesel",
+		"email": "d.griesel@gmx.net"
 	},
-	"type": "module",
-	"exports": "./index.js",
+	"exports": {
+		".": {
+			"import": "./esm/index.js",
+			"require": "./cjs/index.js"
+		},
+		"./package.json": "./package.json"
+	},
 	"engines": {
 		"node": ">=12"
 	},
@@ -19,8 +23,8 @@
 		"test": "xo && ava && tsd"
 	},
 	"files": [
-		"index.js",
-		"index.d.ts"
+		"cjs/",
+		"esm/"
 	],
 	"keywords": [
 		"clean",
@@ -31,7 +35,7 @@
 		"electron"
 	],
 	"dependencies": {
-		"escape-string-regexp": "5.0.0"
+		"@esm2cjs/escape-string-regexp": "5.0.0"
 	},
 	"devDependencies": {
 		"ava": "^3.15.0",
@@ -40,5 +44,31 @@
 	},
 	"browser": {
 		"os": false
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"main": "cjs/index.js",
+	"module": "esm/index.js",
+	"types": "esm/index.d.ts",
+	"typesVersions": {
+		"*": {
+			"esm/index.d.ts": [
+				"esm/index.d.ts"
+			],
+			"cjs/index.d.ts": [
+				"esm/index.d.ts"
+			],
+			"*": [
+				"esm/*"
+			]
+		}
+	},
+	"xo": {
+		"ignores": [
+			"cjs",
+			"**/*.test-d.ts",
+			"**/*.d.ts"
+		]
 	}
 }
